@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "My/Controller/Bill/Controllers/YMBillRecordListVC.m"
+            timestampString = "579280227.238732"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
+            landmarkName = "-loadData"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YMBillRecordListVC loadData]"
+                  moduleName = "WSYMPay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangwenjia/Desktop/213/WSYMPay%202/My/Controller/Bill/Controllers/YMBillRecordListVC.m"
+                  timestampString = "579280227.5469739"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "182"
+                  endingLineNumber = "182"
+                  offsetFromSymbolStart = "1232">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__30-[YMBillRecordListVC loadData]_block_invoke"
+                  moduleName = "WSYMPay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangwenjia/Desktop/213/WSYMPay%202/My/Controller/Bill/Controllers/YMBillRecordListVC.m"
+                  timestampString = "579280227.549741"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "184"
+                  endingLineNumber = "184"
+                  offsetFromSymbolStart = "80">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.222"
+                  moduleName = "WSYMPay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangwenjia/Desktop/213/WSYMPay%202/My/Controller/Bill/Controllers/YMBillRecordListVC.m"
+                  timestampString = "579280227.552458"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "182"
+                  endingLineNumber = "182"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "My/Controller/Bill/Controllers/YMBillRecordListVC.m"
+            timestampString = "579280227.239123"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
+            landmarkName = "-loadData"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "My/Controller/Setting(&#x8bbe;&#x7f6e;)/ChangePayPwd/ChangePayPwdNextViewController.m"
+            timestampString = "579279194.317601"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
+            landmarkName = "-nextBtn"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "My/Controller/Setting(&#x8bbe;&#x7f6e;)/ChangePayPwd/ChangePayPwdNextViewController.m"
+            timestampString = "579279194.3183841"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "-nextBtn"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ChangePayPwdNextViewController nextBtn]"
+                  moduleName = "WSYMPay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangwenjia/Desktop/213/WSYMPay%202/My/Controller/Setting(%E8%AE%BE%E7%BD%AE)/ChangePayPwd/ChangePayPwdNextViewController.m"
+                  timestampString = "579280227.571149"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "98"
+                  endingLineNumber = "98"
+                  offsetFromSymbolStart = "840">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__41-[ChangePayPwdNextViewController nextBtn]_block_invoke"
+                  moduleName = "WSYMPay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangwenjia/Desktop/213/WSYMPay%202/My/Controller/Setting(%E8%AE%BE%E7%BD%AE)/ChangePayPwd/ChangePayPwdNextViewController.m"
+                  timestampString = "579280227.573719"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "99"
+                  endingLineNumber = "99"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.181"
+                  moduleName = "WSYMPay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangwenjia/Desktop/213/WSYMPay%202/My/Controller/Setting(%E8%AE%BE%E7%BD%AE)/ChangePayPwd/ChangePayPwdNextViewController.m"
+                  timestampString = "579280227.5767"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "98"
+                  endingLineNumber = "98"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "My/Controller/Setting(&#x8bbe;&#x7f6e;)/ChangePayPwd/ChangePayPwdNextViewController.m"
+            timestampString = "579279252.645435"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "-nextBtn"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

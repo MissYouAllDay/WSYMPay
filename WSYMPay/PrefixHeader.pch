@@ -1,0 +1,166 @@
+//
+//  PrefixHeader.pch
+//  WSYMPay
+//
+//  Created by 赢联 on 16/9/14.
+//  Copyright © 2016年 赢联. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// 保存数据
+#define GET_NSUSERDEFAULT(k)              ([[NSUserDefaults standardUserDefaults] objectForKey:k])
+//保存b到本地d数据
+#define USER_DEFAULT    [NSUserDefaults standardUserDefaults]
+
+//15224435852         yl_888888  建行：6227002390005811111  招商：6214830121548164
+//获得屏幕宽高
+#define  SCREENWIDTH   [UIScreen mainScreen].bounds.size.width
+#define  SCREENHEIGHT   [UIScreen mainScreen].bounds.size.height
+/** 等比放大：按照iPhone6的尺寸以点为单位 */
+#define SCALEZOOM(default)  (default) * SCREENWIDTH / 375.0f
+#define KP6(default)  (default) * SCREENWIDTH / 375.0f
+#define NavbarTopHeight (SCREENHEIGHT == 812.0||SCREENHEIGHT==896.0?88 : 64)
+#define  UIColorFromHex(s) [UIColor colorWithRed:(((s & 0xFF0000) >> 16))/255.0 green:(((s &0xFF00) >>8))/255.0 blue:((s &0xFF))/255.0 alpha:1.0]                                           //十六进制颜色值
+#define LEFTSPACE   15                          //左间距
+#define RIGHTSPACE  15                          //右间距
+//#define VIEWGRAYCOLOR UIColorFromHex(0xf5f5f5)  //视图背景颜色
+#define VIEWGRAYCOLOR RGBColor(242, 242,242)
+#define LAYERCOLOR UIColorFromHex(0xe6e6e6)     //边框或者线条颜色
+#define lINECOLOR UIColorFromHex(0xd4d4d4)    //与cell分割线颜色想用的line
+#define CORNERRADIUS 6                          //角弧度
+#define DEFAULTFONT(n) [VUtilsTool fontWithString:n]
+
+#define FONTCOLOR  UIColorFromHex(0x737373)  //灰色字体颜色
+
+#define FONTDARKCOLOR  UIColorFromHex(0x404040)  //黑色字体颜色
+//navgationBar背景色 E2483C
+#define NAVIGATIONBARCOLOR RGBColor(226, 72, 60)
+#define NAVIGATIONBARCOLOR_LIGHT RGBAlphaColor(226, 72, 60,0.7)
+//navTitle字体
+#define NAV_FONT [UIFont systemFontOfSize:DEFAULTFONT(18.0)]
+
+//RGB颜色
+#define RGBAlphaColor(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]
+
+#define RGBColor(r,g,b)        RGBAlphaColor(r,g,b,1.0)
+
+//section高度
+#define HEADERSECTION_HEIGHT  15
+
+//banner 高度
+#define BANNERHEIGHT SCREENWIDTH * 0.27
+//栏目高度
+#define COLUMNHEIGHT SCREENWIDTH * 0.23
+#define COLUMNBACKGROUNDCOLOR RGBColor(247,247,247)
+//section HeaderView 高度
+#define HEADERSECTIONVIEW_HEIGHT SCREENWIDTH*ROWProportion*0.8
+//cell控件高度
+#define ROWProportion    132.48/1000.0//129/1000
+//红色 登录按钮
+#define LoginButtonBackgroundColor [UIColor colorWithRed:226/255.0 green:72/255.0 blue:60/255.0 alpha:1.0]
+//通知
+#define WSYMNSNotification                  [NSNotificationCenter defaultCenter]
+//选中城市通知
+#define WSYMSelectedCityNotification        @"HSJZBSDKCBABDKASDBDASADNZC"
+//选中城市key
+#define WSYMSelectedCityName                @"ZCNZXCNnBJvGkvJGmvVHvNbnVN"
+//刷新用户数据
+#define WSYMRefreshUserInfoNotification @"HKbmGJvjLJhiBMjgBMgMBMgjJjh"
+//刷新银行卡列表
+#define WSYMUserAddBankCardSuccessNotification @"WSYMUserAddBankCardSuccessNotification"
+//刷新预付卡列表
+#define WSYMUserAddPrepaidCardSuccessNotification @"WSYMUserAddPrepaidCardSuccessNotification"
+//刷新转账列表
+#define WSYMRefreshTransferDetailsNotification @"WSYMRefreshTransferDetailsNotification"
+//刷新转账列表
+#define WSYMRefreshTransferNotification @"WSYMRefreshTransferNotification"
+//用户退出登录
+#define WSYMUserLogoutNotification @"WSYMUserLogoutNotification"
+//信息认证完成
+#define WSYMBankCardVerifyNotification @"WSYMBankCardVerifyNotification"
+//刷新交易记录列表
+#define WSYMRefreshBillListNotification @"WSYMRefreshBillListNotification"
+
+//统一字体
+#define COMMON_FONT  [UIFont systemFontOfSize:[VUtilsTool fontWithString:14.0]]
+//窗口
+#define KEYWINDOW   [UIApplication sharedApplication].keyWindow
+
+#define System_Version [[[UIDevice currentDevice] systemVersion] floatValue]
+
+#define AESKEYS    @"hk6c8n3i29pdk1tf"
+
+/**log*/
+#ifdef DEBUG
+#define YMLog(...) NSLog(@"%s \n %@",__func__,[NSString stringWithFormat:__VA_ARGS__])
+#else
+#define YMLog(...)
+#endif
+
+
+/** 循环引用 */
+#define WEAK_SELF       __weak typeof (self) weakSelf = self
+#define STRONG_SELF     __strong typeof (self) strongSelf = weakSelf
+
+#import <Masonry.h>
+#import "VUtilsTool.h"
+#import "YMHTTPRequestTool.h"
+#import "MBProgressHUD+DX.h"
+//#import "CodeObfuscation.h"
+#import "MJExtension.h"
+#import "UIViewController+Extension.h"
+//通用模型
+#import "RequestModel.h"
+//全部接口
+#import "YMPublicInterface.h"
+//各种输入格式
+#import "NSString+Extension.h"
+#import "NSDictionary+Extension.h"
+#import "UIFont+Extension.h"
+#import "UIImage+Extension.h"
+#import "UIView+Extension.h"
+#import "ImageViewTool.h"
+#import "UILabel+Extension.h"
+#import "UIBarButtonItem+Extension.h"
+#import "YMUserInfoTool.h"
+#import "NSString+AES.h"
+#import "CGXPickerView.h"
+#import "CXFunctionTool.h"
+#import "OpenSSLRSAManagers.h"
+#import "ObtainUserIDFVTool.h"
+//提示
+#define MSG0  @"码农正在努力建设中，敬请期待!"
+#define MSG1  @"该账户不存在"
+#define MSG2  @"请输入您上次收到的短信验证码"
+#define MSG3  @"您的操作过于频繁，请稍后再试"
+#define MSG4  @"验证码已发送至您的手机/邮箱，\n请前往邮箱查收"
+#define MSG5  @"验证码有效期为5分钟"
+#define MSG6  @"根据监管办法，需要对您的账户进行实名认证\n实名认证后，即刻享受支付服务"
+#define MSG7  @"您的账户已完成初级认证，转账汇款可轻松完成\n升级到高级账户，可购买理财，享受更多服务"
+#define MSG8  @"您的证件提交成功，我们会在1-2个工作日完\n成审核，请耐心等待"
+#define MSG9  @"手机号已注册,请直接登录"
+#define MSG10 @"请输入正确的邮箱"
+#define MSG11 @"支付密码输入错误5次请找回支付密码或3小时后再试"
+#define MSG12 @"账号可能在别处登录,请重新登录"
+#define MSG13 @"请返回上层从新验证"
+#define MSG14 @"登陆信息过期请重新登录"
+#define MSG15 @"支付密码输入错误5次请找回支付密码或3小时后再试"
+#define MSG16 @"请输入正确的储蓄卡卡号"
+#define MSG17 @"转入账户被禁用/账户被冻结，无法进行转账"
+#define MSG18 @"请输入正确的手机号"
+#define MSG19 @"请先上传身份证进行实名认证"
+#define MSG20 @"身份证认证审核中"
+#define MSG21 @"身份证认证未通过，请重新上传认证"
+
+#define PLACEHOLDERIMAGE  @"default"
+
+#define PLACEHOLDERIMAGENAME @""
+#define CUSTOM_CODE 10000
+#define PWDERRORTIMES_CODE 20//密码错误，还可以输入"+N+"次
+#define PAYPWDLOCK_CODE 20000//支付密码已锁定
+#define CardInfoChange_CODE 84//卡片信息变更，请重新验证
+#define TransFailed_CODE 109//转账失败
+#define TransChuLi_CODE 115//转账处理中
+#endif /* PrefixHeader_pch */
