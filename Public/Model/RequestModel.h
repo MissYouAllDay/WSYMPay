@@ -282,6 +282,11 @@
 //真实名字
 @property (nonatomic, copy) NSString *custName;
 
+/** 最大交易金额 */
+@property (nonatomic, copy) NSString *maxTxAmt;
+
+/** 最小交易金额 */
+@property (nonatomic, copy) NSString *minTxAmt;
 
 
 @end

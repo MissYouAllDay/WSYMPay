@@ -27,4 +27,6 @@
 
 - (NSMutableArray *)getListArray;
 
+- (NSString *)getAllTxamt;
+
 @end

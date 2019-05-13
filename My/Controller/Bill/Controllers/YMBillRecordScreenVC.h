@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-typedef void (^clickValueBlock) (NSString * _Nullable value);
+typedef void (^clickValueBlock) (NSString * _Nullable value,NSString *minMoney,NSString *maxMoney);
 NS_ASSUME_NONNULL_BEGIN
 
 @interface YMBillRecordScreenVC : UIViewController

@@ -133,7 +133,7 @@
  @param payPwd 支付密码
  @param success 成功回调
  */
-+(NSURLSessionTask *)loadHttpRequestWithDeleteBankCard:(NSString *)paySign payPwd:(NSString *)payPwd success:(void(^)(NSInteger resCode,NSString *resMsg))success;
++(NSURLSessionTask *)loadHttpRequestWithDeleteBankCard:(NSString *)paySign payPwd:(NSString *)payPwd withPaytype:(int)paytype success:(void(^)(NSInteger resCode,NSString *resMsg))success;
 
 /**
  绑定银行卡最后一步
@@ -386,6 +386,15 @@
  @param success 成功
  */
 + (void)loadHttpRequestWithGetPayTypeParameters:(RequestModel *)parameters success:(void (^)(YMBankCardBaseModel *baseModel))success;
+
+
+/**
+ 扫码付款
+
+ @param parameters 参数
+ @param success 成功回调
+ */
++ (void)loadHttpRequestWithGetPayTypeWithScanParameters:(RequestModel *)parameters success:(void (^)(YMBankCardBaseModel *baseModel))success;
 
 /**
  获取查询支付方式（充值/扫一扫）

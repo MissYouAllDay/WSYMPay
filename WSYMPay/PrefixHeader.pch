@@ -9,10 +9,18 @@
 #ifndef PrefixHeader_pch
 #define PrefixHeader_pch
 
-// 保存数据
+// 读取数据
 #define GET_NSUSERDEFAULT(k)              ([[NSUserDefaults standardUserDefaults] objectForKey:k])
+// 保存数据
+#define SET_NSUSERDEFAULT(k, o)           ([[NSUserDefaults standardUserDefaults] setObject:o forKey:k])
+
 //保存b到本地d数据
 #define USER_DEFAULT    [NSUserDefaults standardUserDefaults]
+
+//用户指纹保存key
+#define USER_FINGER         [NSString stringWithFormat:@"%@_%@",[YMUserInfoTool shareInstance].custLogin,@"Finger"]
+// 用户密钥
+#define USER_PRIVATEKEY     [NSString stringWithFormat:@"%@_%@",[YMUserInfoTool shareInstance].custLogin,@"privatekeys"]
 
 //15224435852         yl_888888  建行：6227002390005811111  招商：6214830121548164
 //获得屏幕宽高

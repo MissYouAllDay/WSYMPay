@@ -59,7 +59,7 @@
     [_ktBtn setTitleColor:UIColorFromHex(0xffffff) forState:UIControlStateNormal];
     [self.view addSubview:_ktBtn];
     [_ktBtn addTarget:self action:@selector(ktBtnClick) forControlEvents:UIControlEventTouchDown];
-    if ([GET_NSUSERDEFAULT(@"Finger") isEqualToString:@"1"]) {
+    if ([GET_NSUSERDEFAULT(USER_FINGER) isEqualToString:@"1"]) {
         _fingerMes.text = @"您已开通指纹支付";
         [_ktBtn setTitle:@"关闭指纹支付" forState:UIControlStateNormal];
         
@@ -68,8 +68,8 @@
 }
 - (void)ktBtnClick {
     
-    if ([GET_NSUSERDEFAULT(@"Finger") isEqualToString:@"1"]) {
-        REMOVE_NSUSERDEFAULT(@"Finger");
+    if ([GET_NSUSERDEFAULT(USER_FINGER) isEqualToString:@"1"]) {
+        REMOVE_NSUSERDEFAULT(USER_FINGER);
         _fingerMes.text = @"您未开通指纹支付";
         [_ktBtn setTitle:@"开通指纹支付" forState:UIControlStateNormal];
         return;
@@ -218,7 +218,8 @@
         [MBProgressHUD hideHUD];
         
         if ([responseObject[@"resCode"] intValue] == 1) {
-            SET_NSUSERDEFAULT(@"Finger", @"1");
+
+            SET_NSUSERDEFAULT(USER_FINGER, @"1");
             _fingerMes.text = @"您已开通指纹支付";
             [_ktBtn setTitle:@"关闭指纹支付" forState:UIControlStateNormal];
             
@@ -239,7 +240,7 @@
             if(privateKey&&publicKey) {
                 NSString *pemPublicStr=[OpenSSLRSAManagers pemEncodedStringKey:publicKey isPubkey:YES];//上传服务器
                 [OpenSSLRSAManagers pemEncodedStringKey:privateKey isPubkey:NO];//这个私匙直接保存成文件了
-                NSString *signData=[OpenSSLRSAManagers rsaSignStringwithString:@"1000"];//签名
+//                NSString *signData=[OpenSSLRSAManagers rsaSignStringwithString:@"1000"];//签名
                 return pemPublicStr;
                 break;
             }

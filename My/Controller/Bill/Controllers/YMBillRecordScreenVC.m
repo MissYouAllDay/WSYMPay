@@ -72,12 +72,13 @@
         btn.backgroundColor=LAYERCOLOR;
         [btn setTitleColor:FONTDARKCOLOR forState:UIControlStateNormal];
     }
-    if (btn.tag == 0) {
-        _value = @"转账";
-    }
-    else {
-        _value = @"网购";
-    }
+//    if (btn.tag == 0) {
+//        _value = @"转账";
+//    }
+//    else {
+//        _value = @"网购";
+//    }
+    _value = btn.titleLabel.text;
     btn.selected = !btn.selected;
     
 }
@@ -92,7 +93,20 @@
 }
 -(void)sureAction {
     if (self.clickValueblock) {
-        self.clickValueblock(_value);
+        
+        if ([CXFunctionTool haveValue:self.txtLowF.text] && ![CXFunctionTool isMoney:self.txtLowF.text]) {
+            [MBProgressHUD showText:@"最低金额输入不规范"];
+            return;
+        }
+        
+        if ([CXFunctionTool haveValue:self.txtHightTF.text] && ![CXFunctionTool isMoney:self.txtHightTF.text]) {
+            [MBProgressHUD showText:@"最高金额输入不规范"];
+            return;
+        }
+        
+        NSString *min = [CXFunctionTool haveValue:self.txtLowF.text] ? self.txtLowF.text : @"-1";
+        NSString *max = [CXFunctionTool haveValue:self.txtHightTF.text] ? self.txtHightTF.text : @"-1";
+        self.clickValueblock(_value,min,max);
     }
     [self.navigationController popViewControllerAnimated:YES];
 }

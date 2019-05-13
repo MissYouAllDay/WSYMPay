@@ -99,6 +99,13 @@
 
 - (void)sendBillDetailType:(BillDetailType)billDetailType model:(YMAllBillDetailDataModel *)model
 {
+    // 仅仅04 的状态下菜有订单撤销功能
+    if ([[model getStatusCodeStr] isEqualToString:@"04"]) {
+        self.revokeBtn.hidden = NO;
+    }else {
+        self.revokeBtn.hidden = YES;
+    }
+    return;
     if (billDetailType !=  BillDetailAccountTransfer) {
         self.revokeBtn.hidden = YES;
     }

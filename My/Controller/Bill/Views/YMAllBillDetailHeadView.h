@@ -31,4 +31,6 @@
 
 - (void)sendBillDetailType:(BillDetailType)billDetailType model:(YMAllBillDetailDataModel *)model;
 
+- (void)sendBillDetailTranType:(NSString *)tranType model:(YMAllBillDetailDataModel *)model ;
+
 @end

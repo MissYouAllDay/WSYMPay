@@ -63,6 +63,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupSubviews];
+    
 }
 
 -(void)setupSubviews
@@ -111,10 +112,10 @@
     paramers.bankPreMobile = phoneNO;
     paramers.cardNo = self.bankCardModel.bankAcNo;
     paramers.randomCode    = [YMUserInfoTool shareInstance].randomCode;
-//    if (self.bankCardModel.cardType == 2) {
-//        paramers.cardDeadline = self.termTextField.text;
-//        paramers.safetyCode   = self.safetyCodeTextField.text;
-//    }
+    if (self.bankCardModel.cardType == 2) {
+        paramers.cardDeadline = self.termTextField.text;
+        paramers.safetyCode   = self.safetyCodeTextField.text;
+    }
     WEAK_SELF;
     [YMMyHttpRequestApi loadHttpRequestWithGetBankVCode:paramers success:^(NSInteger resCode, NSString *resMsg, NSDictionary *data) {
         

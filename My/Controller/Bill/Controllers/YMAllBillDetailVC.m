@@ -71,6 +71,7 @@
         strongSelf.tableView.hidden = NO;
        
         strongSelf.detailDataModel = detailDataModel;
+        strongSelf.tableViewTool.tranType = self.tranTypeStr;
         [strongSelf tableViewTool].billDetailType = self.billDetailType;
         [strongSelf tableViewTool].detailDataModel = strongSelf.detailDataModel;
         [strongSelf.tableView reloadData];
@@ -87,7 +88,8 @@
 {
     if ([optType isEqualToString:@"3"]) {
         RequestModel *params = [[RequestModel alloc] init];
-        params.prdOrdNo = self.orderNoStr;
+//        params.prdOrdNo = self.orderNoStr;
+        params.orderNo = self.orderNoStr;
 //        params.optType = @"1";
         WEAK_SELF;
         [YMMyHttpRequestApi loadHttpRequestWithRevokeOrConfirmParamsONE:params success:^(NSString *acceptState) {
@@ -179,7 +181,7 @@
         [param setObject:payPwd forKey:@"payPwd"];
     }
     NSString *fingerText = [NSString stringWithFormat:@"{\"machineNum\":\"%@\",\"raw\":\"%@\",\"tee_n\":\"IOS\",\"tee_v\":\"%@\"}",[ObtainUserIDFVTool getIDFV],[YMUserInfoTool shareInstance].randomCode,[[UIDevice currentDevice] systemVersion]];
-    [param setObject:[fingerText encryptAES] forKey:@"fingerText"];
+    [param setObject:fingerText forKey:@"fingerText"];
     [param setObject:[[ObtainUserIDFVTool getIDFV] encryptAES] forKey:@"machineNum"];
     [param setObject:[[NSString stringWithFormat:@"%d",paytype] encryptAES] forKey:@"pwdType"];
     
@@ -339,9 +341,6 @@
 //未投诉时  按钮点击事件
 - (void)loadWeiTouSu
 {
-    
-    
-    
     YMAllBillComplaintVC *complaintVC = [[YMAllBillComplaintVC alloc] init];
     complaintVC.billDetailType = self.billDetailType;
     //self.tranTypeStr;1消费2手机充值3充值4转账5提现

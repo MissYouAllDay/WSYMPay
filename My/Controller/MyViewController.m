@@ -299,7 +299,6 @@
         return;
     }
 
-    
     NSDictionary * sectionDic = self.dataArr[indexPath.section];
     NSArray * dicArr =sectionDic[@"function"];
     NSDictionary * dic = dicArr[indexPath.row];

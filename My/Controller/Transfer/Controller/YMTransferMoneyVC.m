@@ -93,7 +93,7 @@
     self.payMoney = self.moneyStr;
     params.tranTypeSel = @"3";
     WEAK_SELF;
-    [YMMyHttpRequestApi loadHttpRequestWithGetPayTypeParameters:params success:^(YMBankCardBaseModel *baseModel) {
+    [YMMyHttpRequestApi loadHttpRequestWithGetPayTypeWithScanParameters:params success:^(YMBankCardBaseModel *baseModel) {
         STRONG_SELF;
         YMBankCardDataModel *dataM = [baseModel getBankCardDataModel];
         strongSelf.bankCardDataModel = dataM;
@@ -303,6 +303,8 @@
 - (void)fingerPay {
     
     NSString *fingerText = [NSString stringWithFormat:@"{\"machineNum\":\"%@\",\"raw\":\"%@\",\"tee_n\":\"IOS\",\"tee_v\":\"%@\"}",[ObtainUserIDFVTool getIDFV],[YMUserInfoTool shareInstance].randomCode,[[UIDevice currentDevice] systemVersion]];
+    NSString *pay = [OpenSSLRSAManagers rsaSignStringwithString:fingerText];
+    NSLog(@"*****%@",pay);
     [self loadCheckPwdData:[OpenSSLRSAManagers rsaSignStringwithString:fingerText] withPayType:1];
 }
 // TODO: 获取指纹
@@ -405,8 +407,14 @@
 
 - (void)selectSureTransferBtnWithMoney:(NSString *)money beiZhuMsg:(NSString *)beiZhuMsg
 {//确认支付按钮 创建订单，订单生成之后弹出输密码弹框。。。
-    YMLog(@"money = %@,\n beiZhuMsg = %@",money,beiZhuMsg);
-    self.moneyStr = self.moneyStr.length==0?money:self.moneyStr;
+    YMLog(@"money = %@,\n beiZhuMsg = %@@",money,beiZhuMsg);
+    
+    if ([self.functionSource isEqualToString:@"2"]) {
+        self.moneyStr = [CXFunctionTool haveValue:money] ? money : @"0";
+        self.payMoney = self.moneyStr;
+    }else {
+        self.moneyStr = self.moneyStr.length==0?money:self.moneyStr;
+    }
     self.reMarksStr = beiZhuMsg;
     [self loadCreateOrderData];
 }

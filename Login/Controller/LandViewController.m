@@ -71,7 +71,13 @@
     [self creatBarButton];
     //控件
     [self initView];
+
+}
+
+- (void)setLoginName:(NSString *)loginName {
     
+    _loginName = loginName;
+    usernameTextField.text = loginName;
 }
 //返回
 - (void)creatBarButton{
@@ -258,13 +264,6 @@
     }];
     UITapGestureRecognizer*tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction)];
     [tel addGestureRecognizer:tap];
-    
-  
-//    usernameTextField.text = @"15963010907";// @"15105422972";
-//    passwdTextField.text =  @"yl_888888";//@"asd123456-";
-//    loginBtn.enabled = YES;
-
-
 }
 
 -(void)textFieldChanged:(NSNotification *) note
@@ -289,14 +288,12 @@
             loginBtn.enabled = NO;
         }
     }
-
 }
-
 
 //dismiss
 - (void)backBtnAction{
     NSLog(@"返回");
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)secuBtnTouchUp:(UIButton*)sender{
@@ -341,6 +338,18 @@
             [MBProgressHUD showText:@"登录成功"];
             YMLog(@"jj:%@",currentUserInfo.custLogin);
             
+            NSArray *his = GET_NSUSERDEFAULT(@"LOGIN_HIS");
+            if (!his) {
+                NSArray *loginHis = @[currentUserInfo.usrMobile];
+                SET_NSUSERDEFAULT(@"LOGIN_HIS", loginHis);
+            }else {
+                if (![his containsObject:currentUserInfo.usrMobile]) {
+                    NSMutableArray *arr = [[NSMutableArray alloc] initWithArray:his];
+                    [arr addObject:currentUserInfo.usrMobile];
+                    SET_NSUSERDEFAULT(@"LOGIN_HIS", arr);
+                }
+            }
+    
             MyTabBarController * tab = (MyTabBarController *)KEYWINDOW.rootViewController;
             tab.selectedIndex = 0;
 //            [self.navigationController popViewControllerAnimated:YES];

@@ -21,7 +21,7 @@
 }
 -(void)setupTableView
 {
-    self.title = @"账户锁定时间";
+    self.title = @"解锁设置";
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {

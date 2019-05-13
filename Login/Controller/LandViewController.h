@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface LandViewController : UIViewController
+/** 将要切换的登录账号 */
+@property (nonatomic, copy) NSString *loginName;
+
 
 @end

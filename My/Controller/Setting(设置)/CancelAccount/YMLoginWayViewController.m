@@ -9,6 +9,8 @@
 #import "YMLoginWayViewController.h"
 #import "YMLoginWayViewCell.h"
 @interface YMLoginWayViewController ()
+/** 选中的位置 */
+@property (nonatomic, copy) NSString *index;
 
 @end
 
@@ -48,9 +50,6 @@
     cell.selectionStyle  = UITableViewCellSelectionStyleNone;
     cell.contentView.backgroundColor = [UIColor whiteColor];
     
-    
-    
-    
     if (indexPath.row == 0) {
         
         NSString * rightswitchOne = [USER_DEFAULT objectForKey:@"rightswitchOne"];
@@ -78,6 +77,7 @@
         }
 
     }
+    cell.tag = 1020+indexPath.row;
     cell.rightswitch.tag = 1020+indexPath.row;
     [cell.rightswitch addTarget:self action:@selector(valueChanged:) forControlEvents:(UIControlEventValueChanged)];
 
@@ -97,7 +97,7 @@
 
         }else{
             [USER_DEFAULT setObject:@"1" forKey:@"rightswitchOne"];
-
+            [USER_DEFAULT setObject:@"2" forKey:@"rightswitchTwo"];
         }
     }else if ([taginter isEqualToString:@"1"]){
         NSString * rightswitchOne = [USER_DEFAULT objectForKey:@"rightswitchTwo"];
@@ -106,12 +106,10 @@
             
         }else{
             [USER_DEFAULT setObject:@"1" forKey:@"rightswitchTwo"];
-            
+            [USER_DEFAULT setObject:@"2" forKey:@"rightswitchOne"];
         }
-        
     }
-    
-    
+    [self.tableView reloadData];
 }
 
 /*

@@ -208,18 +208,25 @@
 
 -(NSString *)setSecurityText:(NSString *)str
 {
+    if (!str) {
+        return @"";
+    }
+    if ([str containsString:@"*"]) {
+        return str;
+    }
     if (str.length < 5) {
         
         NSString * str1 = [str substringFromIndex:1];
         str1 = [@"*" stringByAppendingString:str1];
         return str1;
         
-    } else {
+    } else if (str.length >= 18) {
         
         NSString *str1 = [str substringToIndex:4];
         NSString *str2 = [str substringFromIndex:14];
         return [[str1 stringByAppendingString:@"********"]stringByAppendingString:str2];
     }
+    return @"";
 }
 
 -(void)setVerificationStatus:(IDVerificationStatus)verificationStatus

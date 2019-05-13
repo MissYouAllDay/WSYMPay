@@ -248,14 +248,9 @@
     RequestModel *params = [[RequestModel alloc]init];
     params.token         = [YMUserInfoTool shareInstance].token;
     params.bankPreMobile = [mobilTF.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-//    params.cardName      = CardholderTF.text;
-//    params.idCardNum     = IDTF.text;
     NSMutableString *bankNo = [[NSMutableString alloc] initWithString:self.bankCardInfo.bankAcNo];
     NSString *bankNum = [bankNo stringByReplacingOccurrencesOfString:@" " withString:@""];
-    
-//    params.cardNo      =  [bankNum encryptAESWithKey:AESKEYS];
-        params.cardNo      =  bankNum;
-
+    params.cardNo      =  bankNum;
     params.tranCode      = JUDEMENTSETPAYPWD;
     [MBProgressHUD showMessage:@"正在验证"];
         

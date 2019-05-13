@@ -78,7 +78,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    NSArray *arr = @[@"解锁方式",@"修改登录密码",@"修改支付密码",@"手势设置",@"指纹设置",@"账户锁定时间"];
+    NSArray *arr = @[@"解锁方式",@"修改登录密码",@"修改支付密码",@"手势设置",@"指纹设置",@"解锁设置"];
     UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     cell.textLabel.text  = arr[indexPath.row];
     cell.accessoryType   = UITableViewCellAccessoryDisclosureIndicator;

@@ -72,6 +72,11 @@
     manager.shouldResignOnTouchOutside          = NO;
     if (self.recharge) {
         self.currentBankCard = [_bankCardDataModel getPayTypeModel];
+        
+        if ([_bankCardDataModel getBankCardListArray].count == 0) { }else {
+            self.currentBankCard = [_bankCardDataModel getBankCardListArray][0];
+        }
+        
     }else{
         if (self.bankCardArray.count > 0) {
             for (YMBankCardModel *model in self.bankCardArray) {

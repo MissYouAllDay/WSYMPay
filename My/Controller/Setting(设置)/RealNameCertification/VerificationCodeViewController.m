@@ -45,6 +45,7 @@ VerificationViewDelegate>
         [self initDB];
     });
     // 判断是否设置支付密码
+    
 }
 
 
@@ -152,12 +153,11 @@ VerificationViewDelegate>
     params.safetyCode    = self.safetyCode;
     params.tranCode      = VERIFICATIONATTACHTOBANK;
     params.chaneel_short = self.chaneel_short;
-    params.trxId         =self.trxId;
-    params.trxDtTm       =self.trxDtTm;
+    params.trxId         = self.trxId;
+    params.trxDtTm       = self.trxDtTm;
     params.smskey        = self.smskey;
-    params.wl_url        =  self.wl_url;
+    params.wl_url        = self.wl_url;
  
-
     __weak typeof(self)  weakSelf = self;
     
     [[YMHTTPRequestTool shareInstance]POST:BASEURL parameters:params success:^(id responseObject) {
@@ -202,14 +202,13 @@ VerificationViewDelegate>
 
 -(void)verificationViewTextDidEditingChange:(NSString *)text
 {
-    if (text.length == 6) {
+    if (text.length == 5) {
         
         submitBtn.enabled = YES;
     } else {
         
         submitBtn.enabled = NO;
     }
-
 }
 
 -(void)verificationViewCountdownButtonDidClick:(VerificationView *)verificationView
@@ -263,10 +262,11 @@ VerificationViewDelegate>
     RequestModel *params = [[RequestModel alloc]init];
     params.token         = [YMUserInfoTool shareInstance].token;
     params.bankPreMobile = [self.bankPreMobil stringByReplacingOccurrencesOfString:@" " withString:@""];
-//    params.cardName      = self.cardName;
-//    params.idCardNum     = self.idCardNum;
+    NSMutableString *bankNo = [[NSMutableString alloc] initWithString:self.bankCardInfo.bankAcNo];
+    NSString *bankNum = [bankNo stringByReplacingOccurrencesOfString:@" " withString:@""];
+    params.cardNo      =  bankNum;
+    
     params.tranCode      = JUDEMENTSETPAYPWD;
-    params.bankAcNo      =
     [MBProgressHUD showMessage:@"正在发送验证码"];
     
     [[YMHTTPRequestTool shareInstance]POST:BASEURL parameters:params success:^(id responseObject) {
@@ -280,6 +280,23 @@ VerificationViewDelegate>
             } else {
               [_verificationView createTimer];
               [MBProgressHUD showText:m.resMsg];
+                
+                NSDictionary *response = responseObject[@"data"];
+                if ([[response allKeys] containsObject:@"trxId"]) {
+                    self.trxId = response[@"trxId"];
+                }
+                if ([[response allKeys] containsObject:@"trxDtTm"]) {
+                    self.trxDtTm = response[@"trxDtTm"];
+                }
+                if ([[response allKeys] containsObject:@"smskey"]) {
+                    self.smskey = response[@"smskey"];
+                }
+                if ([[response allKeys] containsObject:@"wl_url"]) {
+                    self.wl_url = response[@"wl_url"];
+                }
+                if ([[response allKeys] containsObject:@"chaneel_short"]) {
+                    self.chaneel_short = response[@"chaneel_short"];
+                }
             }
             
         } else {

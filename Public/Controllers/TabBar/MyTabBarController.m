@@ -8,8 +8,10 @@
 
 #import "MyTabBarController.h"
 #import "YMNavigationController.h"
-@interface MyTabBarController ()
+@interface MyTabBarController ()<CXFunctionDelegate>
 
+/** <#mark#> */
+@property (nonatomic, assign) NSInteger didSel;
 @end
 
 @implementation MyTabBarController
@@ -18,6 +20,7 @@
     [super viewDidLoad];
     [self createTabBar];
     [self setColor];
+    self.didSel = 0;
 }
 
 - (void)createTabBar
@@ -74,11 +77,37 @@
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"iniAliPayViewstview" object:nil];
 
             }
+            NSString * rightswitchTwo = [USER_DEFAULT objectForKey:@"rightswitchOne"];
+            if ([rightswitchTwo isEqualToString:@"1"]) {
+                //验证手势密码
+                [self havaFingerPay];
+            }
         }
-
+        self.selectedIndex = self.didSel;
+    }else {
+        self.didSel = index;
     }
     
 }
+
+- (void)havaFingerPay {
+    
+    CXFunctionTool *tool = [CXFunctionTool shareFunctionTool];
+    tool.delegate = self;
+    [tool fingerReg];
+}
+
+/** 指纹支付代理*/
+- (void)functionWithFinger:(NSInteger)error {
+    
+    if (error == 0) {
+        
+        self.selectedIndex = self.didSel;
+    }else {
+        [MBProgressHUD showText:@"解锁成功"];
+    }
+}
+
 - (void)setColor{
     
     //设置TabBar title颜色

@@ -31,7 +31,7 @@
 
 #import "AliPayViews.h"
 
-@interface AppDelegate ()
+@interface AppDelegate ()<CXFunctionDelegate>
 @property (nonatomic, strong) Reachability *hostReach;
 @property (nonatomic, strong) NSTimer * timer;
 @property (nonatomic)NSInteger bagTaskId;
@@ -344,7 +344,6 @@ static int count = 0;
 }
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     
-    
     //判断是否开启那个模式
     NSString* index  = [USER_DEFAULT objectForKey:@"indexPathrow"] ;
     if ([index isEqualToString:@"1"]) {
@@ -353,7 +352,11 @@ static int count = 0;
         if ([rightswitchOne isEqualToString:@"1"]) {
             //验证手势密码
             [self iniAliPayViewstview];
-            
+        }
+        NSString * rightswitchTwo = [USER_DEFAULT objectForKey:@"rightswitchOne"];
+        if ([rightswitchTwo isEqualToString:@"1"]) {
+            //验证手势密码
+            [self havaFingerPay];
         }
     }
     
@@ -362,6 +365,23 @@ static int count = 0;
 //    [self stopBackgroudTask];
 }
 
+
+- (void)havaFingerPay {
+    
+    CXFunctionTool *tool = [CXFunctionTool shareFunctionTool];
+    tool.delegate = self;
+    [tool fingerReg];
+}
+
+/** 指纹支付代理*/
+- (void)functionWithFinger:(NSInteger)error {
+    
+    if (error == 0) {
+        [self havaFingerPay] ;
+    }else {
+        [MBProgressHUD showText:@"解锁成功"];
+    }
+}
 
 -(void)iniAliPayViewstview
 {

@@ -39,18 +39,16 @@
     self.nameLab.text = [_model getOrderMsgStr];
     if ([[_model getTranTypeStr] isEqualToString:@"1"]) {
         self.useTypeLab.text = @"消费";
-    }
-    else if ([[_model getTranTypeStr] isEqualToString:@"2"]) {
+    }else if ([[_model getTranTypeStr] isEqualToString:@"2"]) {
         self.useTypeLab.text = @"手机充值";
-    }
-    else if ([[_model getTranTypeStr] isEqualToString:@"3"]) {
+    }else if ([[_model getTranTypeStr] isEqualToString:@"3"]) {
         self.useTypeLab.text = @"充值";
-    }
-    else if ([[_model getTranTypeStr] isEqualToString:@"4"]) {
+    }else if ([[_model getTranTypeStr] isEqualToString:@"4"]) {
         self.useTypeLab.text = @"转账";
-    }
-    else {
+    }else if ([[_model getTranTypeStr] isEqualToString:@"5"]) {
         self.useTypeLab.text = @"提现";
+    }else {
+        self.useTypeLab.text = @"其他";
     }
     self.payStateLabel.text = [_model getOrdStatusStr];
 }

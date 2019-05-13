@@ -25,8 +25,6 @@ typedef NS_ENUM(NSInteger, BillType) {
     BillCollect                 = 4,//收款账单（我要收款界面进入的）
     BillMobilePhoneRecharge     = 5,//手机充值记录账单（手机充值界面进入的）
     BillTransaction             = 7,//交易记录
-
-    
 };
 #import <UIKit/UIKit.h>
 
