@@ -573,7 +573,8 @@ UITextFieldDelegate,VerificationViewDelegate>
             [currentInfo saveUserInfoToSanbox];
             [currentInfo refreshUserInfo];
             [MBProgressHUD showText:@"注册成功"];
-            [self.navigationController popToRootViewControllerAnimated:YES];
+//            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self.navigationController popViewControllerAnimated:YES];
         } else if(m.resCode == 83) {
             [YMPublicHUD showAlertView:nil message:m.resMsg cancelTitle:@"确定" handler:nil];
         } else {

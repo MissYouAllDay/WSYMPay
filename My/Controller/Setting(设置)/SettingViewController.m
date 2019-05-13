@@ -25,7 +25,7 @@
 #import "FirstRealNameCertificationViewController.h"
 #import "FeedbackViewController.h"
 #import "VersionNotesViewController.h"
-
+#import "CXLoginHisVC.h"    // 切换账号
 //登录页面
 #import "LandViewController.h"
 
@@ -245,7 +245,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 7;
+    return 8;
 //    if (section == 0) {
 //        return 5;
 //    }else {
@@ -321,14 +321,14 @@
                 cell.tag=6;
                 
                 break;
-                //            case 7:
-                //                cell.textLabel.text=@"切换账户";
-                //                cell.tag=7;
-                //                break;
-                
             case 6:
-                cell.textLabel.text=@"退出账户";
+                cell.textLabel.text=@"切换账户";
                 cell.tag=7;
+                break;
+                
+            case 7:
+                cell.textLabel.text=@"退出账户";
+                cell.tag=8;
                 break;
                 
             default:
@@ -555,10 +555,15 @@
         VersionNotesViewController *vc = [[VersionNotesViewController alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
     }else if (cell.tag==7) {
+       
+        CXLoginHisVC *vc = [[CXLoginHisVC alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }else if (cell.tag==8) {
         [YMPublicHUD showActionSheetTitle:nil message:nil destructiveBtn:@"退出登录" cancelBtn:@"取消" destrusctive:^{
-                    [self userSignOut];
-                } cancel:nil];
-
+            [self userSignOut];
+        } cancel:nil];
+        
     }
     
     

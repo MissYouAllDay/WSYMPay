@@ -443,7 +443,7 @@
     parameters.tranCode         = @"900240";
     parameters.token            = currentInfo.token;
     
-    [MBProgressHUD show];
+//    [MBProgressHUD show];
     [[super shareInstance] POST:BASEURL parameters:parameters success:^(id responseObject) {
         YMLog(@"获取银行卡列表 responseObject = %@",responseObject);
         NSInteger resCode = [responseObject[@"resCode"] integerValue];
@@ -766,13 +766,19 @@
 
 #pragma mark - 删除预付费卡和银行卡
 //删除银行卡
-+(NSURLSessionTask *)loadHttpRequestWithDeleteBankCard:(NSString *)paySign payPwd:(NSString *)payPwd success:(void (^)(NSInteger, NSString *))success{
++(NSURLSessionTask *)loadHttpRequestWithDeleteBankCard:(NSString *)paySign payPwd:(NSString *)payPwd withPaytype:(int)paytype success:(void (^)(NSInteger, NSString *))success{
     YMUserInfoTool *currentInfo = [YMUserInfoTool shareInstance];
     RequestModel *parameters  = [[RequestModel alloc]init];
+    parameters.pwdType = [NSString stringWithFormat:@"%d",paytype];
     parameters.tranCode = @"900253";
     parameters.token    = currentInfo.token;
     parameters.payPwd   = payPwd;
     parameters.paySign  = paySign;
+ 
+    NSString *fingerText = [NSString stringWithFormat:@"{\"machineNum\":\"%@\",\"raw\":\"%@\",\"tee_n\":\"IOS\",\"tee_v\":\"%@\"}",[ObtainUserIDFVTool getIDFV],[YMUserInfoTool shareInstance].randomCode,[[UIDevice currentDevice] systemVersion]];
+    parameters.fingerText = fingerText;
+    parameters.machineNum = [[ObtainUserIDFVTool getIDFV] encryptAES] ;
+    
     return [[super shareInstance] POST:BASEURL parameters:parameters success:^(id responseObject) {
     YMResponseModel *m = [YMResponseModel loadModelFromDic:responseObject];
     if (success) {
@@ -1219,6 +1225,7 @@
                 YMAllBillListDataModel *dataModel = [resultModel getDataModel];
                 NSMutableArray *listArray = [dataModel getListArray];
                 if (success) {
+                    NSLog(@"****%@",dataModel.AllTxamt);
                     success(listArray,resultModel);
                 }
                 
@@ -1381,6 +1388,42 @@
                     success(bankCardBaseModel);
                 }
             }else{
+                [MBProgressHUD showText:[bankCardBaseModel getResMsgStr]];
+            }
+        }
+    } failure:^(NSError *error) {
+        [MBProgressHUD hideHUD];
+    }];
+}
+
+/**
+ 获取查询支付方式（充值/扫一扫）
+ creat by pzj
+ @param parameters 参数
+ @param success 成功
+ */
++ (void)loadHttpRequestWithGetPayTypeWithScanParameters:(RequestModel *)parameters success:(void (^)(YMBankCardBaseModel *baseModel))success
+{
+    [MBProgressHUD show];
+    parameters.tranCode = GETPAYTYPECODE;
+    parameters.token = [YMUserInfoTool shareInstance].token;
+    [[super shareInstance] POST:BASEURL parameters:parameters success:^(id responseObject) {
+        [MBProgressHUD hideHUD];
+        YMLog(@"查询支付方式 responseObject = %@",responseObject);
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *resultDict = (NSDictionary *)responseObject;
+            YMBankCardBaseModel *bankCardBaseModel = [YMBankCardBaseModel mj_objectWithKeyValues:resultDict];
+            for (YMBankCardModel *m in bankCardBaseModel.data.list) {
+                m.bankAcNo = m.bankAcNo.decryptAES;
+                m.paySign = m.paySign.decryptAES;
+            }
+            if ([bankCardBaseModel getResCodeNum] == 1) {
+                if (success) {
+                    success(bankCardBaseModel);
+                }
+            }else if ([bankCardBaseModel getResCodeNum] == 3) {
+                
+            }else {
                 [MBProgressHUD showText:[bankCardBaseModel getResMsgStr]];
             }
         }

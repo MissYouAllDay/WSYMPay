@@ -67,8 +67,9 @@
     NSString *res = [NSString stringWithUTF8String:bptr->data];
     if(isPubkey) {
     }else {
+        NSString *userPrivateKeys = [NSString stringWithFormat:@"%@.pem",USER_PRIVATEKEY];
         NSString*documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES)objectAtIndex:0];
-        NSString*privPath = [documentsPath stringByAppendingPathComponent:@"privatekeys.pem"];
+        NSString*privPath = [documentsPath stringByAppendingPathComponent:userPrivateKeys];
         //        BIO *outs;
         //        outs = BIO_new_file(privPath,"w");
         //        //这里生成的私钥没有加密，可选加密
@@ -102,8 +103,9 @@
     unsigned char *sig = (unsigned char *)malloc(256);
     unsigned int sig_len = 0;
     //    NSString *myBandle=[[NSBundle mainBundle]pathForResource:@"privatekeys" ofType:@".pem"];
+    NSString *userPrivateKeys = [NSString stringWithFormat:@"%@.pem",USER_PRIVATEKEY];
     NSString*documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES)objectAtIndex:0];
-    NSString *mybandle=[NSString stringWithFormat:@"%@/privatekeys.pem",documentsPath];
+    NSString *mybandle=[NSString stringWithFormat:@"%@/%@",documentsPath,userPrivateKeys];
     char *filePath = (char *)[mybandle cStringUsingEncoding:NSUTF8StringEncoding];
     unsigned char sha1[CC_SHA256_DIGEST_LENGTH];
     SHA256((unsigned char *)message, messageLength, sha1);

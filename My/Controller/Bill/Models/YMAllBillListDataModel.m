@@ -28,4 +28,17 @@
     }
     return array;
 }
+
+- (NSString *)getAllTxamt {
+    
+    NSString *allTxamt = [[NSString alloc] init];
+
+    if (_AllTxamt != nil) {
+        if (![_AllTxamt isEmptyStr]) {
+            allTxamt = [_AllTxamt decryptAES];
+        }
+    }
+    return allTxamt;
+
+}
 @end

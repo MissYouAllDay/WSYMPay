@@ -188,7 +188,7 @@
     }
     else {
         if (![self.starttime.titleLabel.text isEqualToString:@"开始时间"] && ![self.endtime.titleLabel.text isEqualToString:@"结束时间"]) {
-            self.clickMonthblock([NSString stringWithFormat:@"%@-%@",self.starttime.titleLabel.text,self.endtime.titleLabel.text]);
+            self.clickMonthblock([NSString stringWithFormat:@"%@ - %@",self.starttime.titleLabel.text,self.endtime.titleLabel.text]);
              [self.navigationController popViewControllerAnimated:YES];
         }
         else {

@@ -23,6 +23,7 @@
 @end
 @implementation YMAllBillDetailCell
 - (void)sendBillDetailType:(BillDetailType)billDetailType section:(NSInteger)section row:(NSInteger)row model:(YMAllBillDetailDataModel *)model {
+    
     if (section == 0) {
         switch (row) {
             case 0:
@@ -53,7 +54,136 @@
 
         self.keyLabel.text = row == 0 ? @"订单疑问反馈" : @"订单撤销";
     }
+    //（1消费2手机充值3充值4转账5提现） 最新的文档中
+    if ([self.tranType isEqualToString:@"3"]) {
+        [self rechangeSection:section row:row model:model];
+    }else if ([self.tranType isEqualToString:@"1"]) {
+        [self goodsPaySection:section row:row model:model];
+    }else if ([self.tranType isEqualToString:@"5"]) {
+        [self cashSection:section row:row model:model];
+    }
 }
+- (void)rechangeSection:(NSInteger)section row:(NSInteger)row model:(YMAllBillDetailDataModel *)model{
+    
+    if (section == 0) {
+        switch (row) {
+            case 0:
+                self.keyLabel.text = @"交易名称";
+                self.valueLabel.text = @"充值";
+                break;
+            case 1:
+                self.keyLabel.text = @"交易时间";
+                self.valueLabel.text = [model getAccountChonZhiTimeStr];
+                break;
+            case 2:
+                self.keyLabel.text = @"交易状态";
+                self.valueLabel.text = [model getOrderStatusStr];
+                break;
+            case 3:
+                self.keyLabel.text = @"交易单号";
+                self.valueLabel.text = [model getPayOrdNoStr];
+                break;
+            case 4:
+                self.keyLabel.text = @"交易方式";
+                self.valueLabel.text = [model getPayMentMeethodStr];
+                break;
+            default:
+                break;
+        }
+    }
+    else {
+        
+        self.keyLabel.text = row == 0 ? @"订单疑问反馈" : @"订单撤销";
+    }
+}
+
+- (void)goodsPaySection:(NSInteger)section row:(NSInteger)row model:(YMAllBillDetailDataModel *)model{
+    
+    if (section == 0) {
+        switch (row) {
+            case 0:
+                self.keyLabel.text = @"付款方式";
+                self.valueLabel.text = [model getPayMentMeethodStr];
+                break;
+            case 1:
+                self.keyLabel.text = @"商品信息";
+                self.valueLabel.text = [model getPrdNameStr];
+                break;
+            case 2:
+                self.keyLabel.text = @"创建时间";
+                self.valueLabel.text = [model getAccountChonZhiTimeStr];
+                break;
+            case 3:
+                self.keyLabel.text = @"商品订单号";
+                self.valueLabel.text = [model getPrdOrdNoStr];
+                break;
+            case 4:
+                self.keyLabel.text = @"支付流水号";
+                self.valueLabel.text = [model getPayOrdNoStr];
+                break;
+            default:
+                break;
+        }
+    }
+    else {
+        
+        self.keyLabel.text = row == 0 ? @"订单疑问反馈" : @"订单撤销";
+    }
+}
+
+- (void)cashSection:(NSInteger)section row:(NSInteger)row model:(YMAllBillDetailDataModel *)model{
+    
+    if (section == 0) {
+        switch (row) {
+            case 0:
+                self.keyLabel.text = @"交易名称";
+                self.valueLabel.text = @"提现";
+                break;
+            case 1:
+                self.keyLabel.text = @"申请时间";
+                self.valueLabel.text = [model getOrderTimeStr];
+                break;
+            case 2:
+                self.keyLabel.text = @"到账时间";
+                self.valueLabel.text = model.paymentTime;
+                break;
+            case 3:
+            {
+                self.keyLabel.text = @"交易状态";
+                self.valueLabel.text = [self changeStatusToUse:[model getStatusCodeStr]];
+                break;
+            }
+            case 4:
+                self.keyLabel.text = @"交易单号";
+                self.valueLabel.text = model.casOrdNo;
+                break;
+            case 5:
+                self.keyLabel.text = @"转出至";
+                self.valueLabel.text = [model getPayMentMeethodStr];
+                break;
+            default:
+                break;
+        }
+    }
+    else {
+        
+        self.keyLabel.text = row == 0 ? @"订单疑问反馈" : @"订单撤销";
+    }
+}
+
+- (NSString *)changeStatusToUse:(NSString *)statusStr {
+    NSString *str = @"";
+    if ([statusStr isEqualToString:@"01"]) {
+        str = @"提现处理中";
+    }else if ([statusStr isEqualToString:@"02"]){
+        str = @"提现成功";
+    }else if ([statusStr isEqualToString:@"03"]){
+        str = @"提现失败";
+    }
+    return str;
+    
+}
+
 //- (void)sendBillDetailType:(BillDetailType)billDetailType section:(NSInteger)section row:(NSInteger)row model:(YMAllBillDetailDataModel *)model
 //{
 //    if (billDetailType == BillDetailConsumeMobilePhoneRecharge) {//消费---手机话费充值

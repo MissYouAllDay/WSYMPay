@@ -32,6 +32,9 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (assign,nonatomic,readwrite) BillDetailType billDetailType;
+/** 订单分类 */
+@property (nonatomic, copy) NSString *tranType;
+
 @property (nonatomic, strong) YMAllBillDetailDataModel *detailDataModel;
 
 @property (nonatomic, weak) id<YMAllBillDetailToolDelegate>delegate;

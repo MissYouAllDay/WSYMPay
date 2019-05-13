@@ -13,6 +13,7 @@
 		043D500C2285702F009D353C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 043D4FB62285702F009D353C /* LICENSE */; };
 		043D500F22857154009D353C /* OpenSSLRSAManagers.m in Sources */ = {isa = PBXBuildFile; fileRef = 043D500D22857153009D353C /* OpenSSLRSAManagers.m */; };
 		043D501222857C34009D353C /* CXFunctionTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 043D501122857C34009D353C /* CXFunctionTool.m */; };
+		043D50152287D2BD009D353C /* CXLoginHisVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 043D50142287D2BD009D353C /* CXLoginHisVC.m */; };
 		08310D5F1EB987510028570A /* YMTransferMoneyLimitVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 08310D5E1EB987510028570A /* YMTransferMoneyLimitVC.m */; };
 		08310D621EB987950028570A /* YMTransferMoneyLimitTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 08310D611EB987950028570A /* YMTransferMoneyLimitTool.m */; };
 		08310D651EB98A250028570A /* YMTransferMoneyLimitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08310D641EB98A250028570A /* YMTransferMoneyLimitCell.m */; };
@@ -514,6 +515,8 @@
 		043D500E22857154009D353C /* OpenSSLRSAManagers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenSSLRSAManagers.h; sourceTree = "<group>"; };
 		043D501022857C34009D353C /* CXFunctionTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CXFunctionTool.h; sourceTree = "<group>"; };
 		043D501122857C34009D353C /* CXFunctionTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CXFunctionTool.m; sourceTree = "<group>"; };
+		043D50132287D2BD009D353C /* CXLoginHisVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CXLoginHisVC.h; sourceTree = "<group>"; };
+		043D50142287D2BD009D353C /* CXLoginHisVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CXLoginHisVC.m; sourceTree = "<group>"; };
 		08310D5D1EB987510028570A /* YMTransferMoneyLimitVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMTransferMoneyLimitVC.h; sourceTree = "<group>"; };
 		08310D5E1EB987510028570A /* YMTransferMoneyLimitVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMTransferMoneyLimitVC.m; sourceTree = "<group>"; };
 		08310D601EB987950028570A /* YMTransferMoneyLimitTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMTransferMoneyLimitTool.h; sourceTree = "<group>"; };
@@ -2931,6 +2934,8 @@
 				E9179C18227D1A4F005E41E5 /* FeedbackViewController.m */,
 				E900287E227D8C0C00069479 /* VersionNotesViewController.h */,
 				E900287F227D8C0C00069479 /* VersionNotesViewController.m */,
+				043D50132287D2BD009D353C /* CXLoginHisVC.h */,
+				043D50142287D2BD009D353C /* CXLoginHisVC.m */,
 				7C8528641F203BFC00F72B50 /* iPayment */,
 				7C51D9221D92275D000BA2B9 /* RealNameCertification */,
 				F82FB62B1D90FDB8002A8837 /* ChangePayPwd */,
@@ -3161,7 +3166,7 @@
 					};
 					E655FFF21D88DF43001254B5 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = KCXK6LUSKS;
+						DevelopmentTeam = 969HJ57D5G;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -3661,6 +3666,7 @@
 				08F7CD961F1C828000075CDB /* YMCollectionView.m in Sources */,
 				D1E1DAE81EB1F03D00DB0ADC /* YMAddPrepaidController.m in Sources */,
 				F8580FD01DBF4EF90031FCA0 /* IQToolbar.m in Sources */,
+				043D50152287D2BD009D353C /* CXLoginHisVC.m in Sources */,
 				D1748DAF1DF16FAE00F7DAFD /* YMMyPrepaidCardCell.m in Sources */,
 				0887EB031F2051B800D3E9D5 /* YMAllBillListCell.m in Sources */,
 				D17397631EC314CD00F12606 /* YMScanDetailsModel.m in Sources */,
@@ -3803,7 +3809,7 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = KCXK6LUSKS;
+				DEVELOPMENT_TEAM = 969HJ57D5G;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/WSYMPay/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
@@ -3830,7 +3836,7 @@
 					"$(PROJECT_DIR)/OpenSource/idfaversion",
 					"$(PROJECT_DIR)/Public/OpenSSL/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mimakeji.MiXiu;
+				PRODUCT_BUNDLE_IDENTIFIER = com.onlinefame.pay.wsym1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3850,7 +3856,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = KCXK6LUSKS;
+				DEVELOPMENT_TEAM = 969HJ57D5G;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/WSYMPay/PrefixHeader.pch";
@@ -3878,7 +3884,7 @@
 					"$(PROJECT_DIR)/OpenSource/idfaversion",
 					"$(PROJECT_DIR)/Public/OpenSSL/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mimakeji.MiXiu;
+				PRODUCT_BUNDLE_IDENTIFIER = com.onlinefame.pay.wsym1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -22,6 +22,10 @@
 
 @interface YMAllBillDetailCell : UITableViewCell
 
+/** 订单类型 */
+@property (nonatomic, copy) NSString *tranType;
+
+
 - (void)sendBillDetailType:(BillDetailType)billDetailType section:(NSInteger)section row:(NSInteger)row model:(YMAllBillDetailDataModel *)model;
 
 @end

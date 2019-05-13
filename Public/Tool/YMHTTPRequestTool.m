@@ -140,7 +140,7 @@
 -(NSURLSessionTask *)POST:(NSString *)URLString parameters:(id)parameters success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
         NSString * jsonString = [self createJsonStringFromID:parameters];
-    NSLog(@"URLString:%@,parameters:%@",URLString,jsonString);
+        NSLog(@"URLString:%@,parameters:%@",URLString,jsonString);
         //使用RSA加密
         NSString *publicKeyPath = [[NSBundle mainBundle]pathForResource:@"public_key.der" ofType:nil];
         jsonString              = [RSAEncryptor encryptString:jsonString publicKeyWithContentsOfFile:publicKeyPath];

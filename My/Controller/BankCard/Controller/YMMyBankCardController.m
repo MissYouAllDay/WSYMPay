@@ -20,7 +20,7 @@
 #import "FirstRealNameCertificationViewController.h"
 #import "IDVerificationViewController.h"
 
-@interface YMMyBankCardController ()<YMMyBankCardCellDelegate,UIActionSheetDelegate,YMVerificationPaywordBoxViewDelegate>
+@interface YMMyBankCardController ()<YMMyBankCardCellDelegate,UIActionSheetDelegate,YMVerificationPaywordBoxViewDelegate,CXFunctionDelegate>
 
 @property (nonatomic, strong) NSMutableArray *bankCardArray;
 
@@ -185,7 +185,11 @@
 //        [self.bankCardArray removeObjectAtIndex:indexPath.section];//这里的dataArray是可变数组，滑动删除的时候，需要删除数组中的元素
 //        [tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
 //        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]withRowAnimation:UITableViewRowAnimationFade];
-        [self deleteBankCard];
+        
+        if (self.bankCardArray && self.bankCardArray.count != 0) {
+            self.deleteBankCardModel = self.bankCardArray[indexPath.section];
+            [self havaFingerPay];
+        }
     }];
 //    deleteRoWAction.backgroundColor=[UIColor colorWithHex:0xff003c];
     return @[deleteRoWAction];//最后返回这俩个RowAction 的数组
@@ -259,21 +263,18 @@
             [MBProgressHUD showText:MSG19];
             IDVerificationViewController *ifvc = [[IDVerificationViewController alloc]init];
             ifvc.verificationStatus = IDVerificationStatusNotStart;
-            self.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:ifvc animated:YES];
             
         }else if (status  == 1){
             [MBProgressHUD showText:MSG20];
             IDVerificationViewController *ifvc = [[IDVerificationViewController alloc]init];
             ifvc.verificationStatus = IDVerificationStatusStarting;
-            self.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:ifvc animated:YES];
             
         }else if (status  == 3){
             [MBProgressHUD showText:MSG21];
             IDVerificationViewController *ifvc = [[IDVerificationViewController alloc]init];
             ifvc.verificationStatus = IDVerificationStatusFail;
-            self.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:ifvc animated:YES];
              //认证状态 -1是‘未实名’，-2 是'未认证'， '1' 是 '认证审核中'， '2' 是 '已通过认证'跳转到 ， '3' 是 '未通过认证' ‘0’ 是未登录
         }else  {
@@ -329,14 +330,41 @@
 {
     self.deleteBankCardModel = cardCell.bankCardInfo;
     [YMPublicHUD showActionSheetTitle:nil message:nil destructiveBtn:@"解除绑定" cancelBtn:@"取消"destrusctive:^{
-        [self deleteBankCard];
+        [self havaFingerPay];
     } cancel:nil];
-    
 }
 -(void)deleteBankCard
 {
     [self.payPasswordBoxView show];
 }
+
+- (void)havaFingerPay {
+    
+    CXFunctionTool *tool = [CXFunctionTool shareFunctionTool];
+    tool.delegate = self;
+    [tool fingerReg];
+}
+
+/** 指纹支付代理*/
+- (void)functionWithFinger:(NSInteger)error {
+    
+    error == 0 ? [self deleteBankCard] : [self fingerPay];
+}
+
+- (void)fingerPay {
+    
+    NSString *fingerText = [NSString stringWithFormat:@"{\"machineNum\":\"%@\",\"raw\":\"%@\",\"tee_n\":\"IOS\",\"tee_v\":\"%@\"}",[ObtainUserIDFVTool getIDFV],[YMUserInfoTool shareInstance].randomCode,[[UIDevice currentDevice] systemVersion]];
+    
+    self.task = [YMMyHttpRequestApi loadHttpRequestWithDeleteBankCard:self.deleteBankCardModel.paySign payPwd:[OpenSSLRSAManagers rsaSignStringwithString:fingerText] withPaytype:1 success:^(NSInteger resCode, NSString *resMsg) {
+        if (resCode == 1) {
+            [MBProgressHUD showText:@"解绑成功"];
+            [self loadBankList];
+        } else {
+            [self showMessage:resMsg resCode:resCode];
+        }
+    }];
+}
+
 #pragma mark - YMVerificationPaywordBoxViewDelegate
 -(void)verificationPaywordBoxViewQuitButtonDidClick:(YMVerificationPaywordBoxView *)boxView
 {
@@ -346,14 +374,14 @@
 -(void)verificationPaywordBoxView:(YMVerificationPaywordBoxView *)boxView completeInput:(NSString *)str
 {
     boxView.loading = YES;
-   self.task = [YMMyHttpRequestApi loadHttpRequestWithDeleteBankCard:self.deleteBankCardModel.paySign payPwd:str success:^(NSInteger resCode, NSString *resMsg) {
+    self.task = [YMMyHttpRequestApi loadHttpRequestWithDeleteBankCard:self.deleteBankCardModel.paySign payPwd:str withPaytype:0 success:^(NSInteger resCode, NSString *resMsg) {
         if (resCode == 1) {
             [boxView removeFromSuperview];
             [MBProgressHUD showText:@"解绑成功"];
             [self loadBankList];
         } else {
             [self showMessage:resMsg resCode:resCode];
-         }
+        }
     }];
 }
 

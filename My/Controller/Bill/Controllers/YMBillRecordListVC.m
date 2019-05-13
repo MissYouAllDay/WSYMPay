@@ -20,6 +20,8 @@
 #import "YMAllBillListDataListModel.h"
 #import "YMBillRecordScreenVC.h"
 #import "YMBillRecordTimeVC.h"
+#import "YMAllBillListModel.h"
+#import "YMAllBillListDataModel.h"
 @interface YMBillRecordListVC ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -38,7 +40,16 @@
 @property (nonatomic,strong) UIView *topView;
 @property (nonatomic,strong)YMBillCollectListView *collectTopView;
 @property (nonatomic,strong) UIButton *monthBtn;
-@property (nonatomic,copy) NSString *value;
+@property (nonatomic,copy) NSString *value; // 快捷选择筛选value
+/** 最低金额 */
+@property (nonatomic, copy) NSString * minMoney;
+/** 最高金额 */
+@property (nonatomic, copy) NSString *maxMoney;
+/** 组头数据  {201905 = "200.01|-0.00";} */
+@property (nonatomic, strong) NSMutableArray *headDataArr;
+/** 时间搜索条件 */
+@property (nonatomic, copy) NSString *timeSearchText;
+
 @end
 
 @implementation YMBillRecordListVC
@@ -100,10 +111,14 @@
 }
 -(void)nextScreenVCAction {
     YMBillRecordScreenVC *screenVC=[YMBillRecordScreenVC new];
+
     WEAK_SELF;
-    screenVC.clickValueblock = ^(NSString * _Nullable value) {
+    screenVC.clickValueblock = ^(NSString * _Nullable value,NSString *minMoney,NSString *maxMoney) {
+        
         STRONG_SELF;
         strongSelf.value = value;
+        strongSelf.minMoney = ![minMoney isEqualToString:@"-1"] ? minMoney : nil;
+        strongSelf.maxMoney = ![maxMoney isEqualToString:@"-1"] ? maxMoney : nil;
         [strongSelf loadData];
     };
     [self.navigationController pushViewController:screenVC animated:YES];
@@ -144,81 +159,7 @@
     }
     return _collectTopView;
 }
-- (void)loadData
-{
-    [self.dataArray removeAllObjects];
-    NSString *transTypeSelStr = @"";
-    if (self.billType == BillConsume) {//1消费
-        transTypeSelStr = @"1";
-    }else if (self.billType == BillAccountRecharge){//2充值
-        transTypeSelStr = @"2";
-    }else if (self.billType == BillAccountWithDrawal){//3提现
-        transTypeSelStr = @"3";
-    }else if (self.billType == BillAccountTransfer){//4转账
-        transTypeSelStr = @"4";
-    }else if (self.billType == BillMobilePhoneRecharge){//5手机充值
-        transTypeSelStr = @"5";
-    }else if (self.billType == BillCollect){//6我要收款
-        transTypeSelStr = @"6";
-    }else if(self.billType  == BillTransaction){//0全部
-        transTypeSelStr = @"0";
 
-    }
-
-
-    RequestModel *params = [[RequestModel alloc] init];
-
-    params.tranTypeSel = transTypeSelStr;
-    params.pageNum = [NSString stringWithFormat:@"%ld",self.pageNum];
-    params.numPerPag = [NSString stringWithFormat:@"%ld",self.numPerPag];
-    params.keyWords = self.keyWords;
-    if ([self.value isEqualToString:@"转账"]) {
-        params.tranTypeSel = @"1";
-    }
-    else if ([self.value isEqualToString:@"网购"]) {
-        params.tranTypeSel = @"2";
-    }
-    WEAK_SELF;
-    [YMMyHttpRequestApi loadHttpRequestWithBillList:params success:^(NSMutableArray *array, YMAllBillListModel *model) {
-     
-        STRONG_SELF;
-        
-        
-//        NSLog(@"model---------%@",model.countNum);
-//        NSLog(@"-------%@",model.get.AllTxamt);我
-//        NSString *AllTxamt = [NSString stringWithFormat:@"%@",model.data.AllTxamt];
-        
-        [strongSelf.tableView.mj_header endRefreshing];
-        [strongSelf.tableView.mj_footer endRefreshing];
-        strongSelf.backgroundView.hidden = YES;
-        strongSelf.tableView.hidden = NO;
-        
-        if (array.count > 0) {
-            if (strongSelf.pageNum>1) {
-                [strongSelf.allDataArray addObjectsFromArray:array];
-            }else{
-                [strongSelf.allDataArray removeAllObjects];
-                strongSelf.tableView.mj_footer.hidden = array.count>19?NO:YES;
-                strongSelf.allDataArray = array;
-            }
-        }else{
-            if (strongSelf.pageNum>1) {
-                [strongSelf.tableView.mj_footer endRefreshingWithNoMoreData];
-            }else{
-                strongSelf.backgroundView.hidden = NO;
-                strongSelf.tableView.hidden = YES;
-            }
-        }
-        strongSelf.dataArray = [YMAllBillListEndWantModel getDataArray:strongSelf.allDataArray];
-        [strongSelf.tableView reloadData];
-        
-    } failure:^(NSError *error) {
-        STRONG_SELF;
-        [strongSelf.tableView.mj_header endRefreshing];
-        [strongSelf.tableView.mj_footer endRefreshing];
-    }];
-    
-}
 -(void)setNavigationItem
 {
 //    self.navigationItem.rightBarButtonItem = self.rightBarButtonItem;
@@ -392,6 +333,37 @@
 //    titleLabel.textColor = FONTCOLOR;
 //    titleLabel.font = [UIFont systemFontOfMutableSize:12];
 //    [headView addSubview:titleLabel];
+    if (self.headDataArr.count <= section) {
+        [_monthBtn setTitle:@"本月" forState:UIControlStateNormal];
+        lbl1.text = @"";
+        lbl2.text = @"";
+        return headView;
+    }
+    // 赋值
+    NSDictionary *headData = self.headDataArr[section];
+    
+    if ([headData allKeys].count != 1) {  [MBProgressHUD showText:@"月份数据异常"]; };
+    
+    NSString *key = [headData allKeys][headData.count - 1];
+    
+    [_monthBtn setTitle:key forState:UIControlStateNormal];
+    
+    NSString *value = headData[key];
+    if (![value containsString:@"|"]) {  [MBProgressHUD showText:@"分割线数据异常"]; }
+    
+    NSArray *moneyArr = [value componentsSeparatedByString:@"|"];
+    if (moneyArr.count != 2) { [MBProgressHUD showText:@"收入支出数据异常"]; }
+    lbl1.text = [NSString stringWithFormat:@"收入:%@",moneyArr[0]];
+    lbl2.text = [NSString stringWithFormat:@"支出:%@",moneyArr[1]];
+    
+    
+    NSDate *date = [NSDate date];
+    NSDateFormatter *matter = [[NSDateFormatter alloc] init];
+    matter.dateFormat = @"yyyyMM";
+    NSString *currDate = [matter stringFromDate:date];
+    
+    NSString *dateText = [currDate isEqualToString:key] ? @"本月" : key;
+    [_monthBtn setTitle:dateText forState:UIControlStateNormal];
     return headView;
 }
 - (void)monthbtnclick {
@@ -404,6 +376,9 @@
         [strongSelf.monthBtn mas_updateConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(KP6(48+size.width));
         }];
+        
+        strongSelf.timeSearchText = month;
+        [self loadData];
     };
     [self.navigationController pushViewController:vc animated:YES];
     
@@ -595,6 +570,179 @@
     }
 }
 
+- (NSMutableArray *)headDataArr {
+    
+    if (!_headDataArr) {
+        _headDataArr = [[NSMutableArray alloc] init];
+    }
+    return _headDataArr;
+}
+
+#pragma mark - - - - - - - - - - - - -   数据请求 - - - - - - - - - - - - - - -
+- (void)loadData
+{
+    [self.dataArray removeAllObjects];
+    NSString *transTypeSelStr = @"";
+    if (self.billType == BillConsume) {//1消费
+        transTypeSelStr = @"1";
+    }else if (self.billType == BillAccountRecharge){//2充值
+        transTypeSelStr = @"2";
+    }else if (self.billType == BillAccountWithDrawal){//3提现
+        transTypeSelStr = @"3";
+    }else if (self.billType == BillAccountTransfer){//4转账
+        transTypeSelStr = @"4";
+    }else if (self.billType == BillMobilePhoneRecharge){//5手机充值
+        transTypeSelStr = @"5";
+    }else if (self.billType == BillCollect){//6我要收款
+        transTypeSelStr = @"6";
+    }else if(self.billType  == BillTransaction){//0全部
+        transTypeSelStr = @"0";
+        
+    }
+    
+    RequestModel *params = [[RequestModel alloc] init];
+    
+    params.tranTypeSel = transTypeSelStr;
+    params.pageNum = [NSString stringWithFormat:@"%ld",self.pageNum];
+    params.numPerPag = [NSString stringWithFormat:@"%ld",self.numPerPag];
+    params.keyWords = self.keyWords;
+    
+    // // 0全部 1消费2充值3提现4转账 5手机充值 6 我要收款
+    // @[@"消费",@"账户充值",@"账户提现",@"转账",@"手机充值",@"我要收款"];
+    
+    // 快捷筛选
+    NSArray *titleArr = @[@"全部",@"消费",@"账户充值",@"账户提现",@"转账",@"手机充值",@"我要收款"];
+    params.tranTypeSel = [CXFunctionTool haveValue:self.value] ? [NSString stringWithFormat:@"%ld",[titleArr indexOfObject:self.value]] : @"0";
+    
+    // 金额段 筛选
+    if ([CXFunctionTool haveValue:self.minMoney]) { params.minTxAmt = self.minMoney;  }
+    if ([CXFunctionTool haveValue:self.maxMoney]) {  params.maxTxAmt = self.maxMoney; }
+    
+    // 时间检索
+    if (self.timeSearchText && self.timeSearchText.length > 2) {
+        // 时间段查询
+        if ([self.timeSearchText containsString:@" - "]) {
+            
+            NSArray *searchTimeArr = [self.timeSearchText componentsSeparatedByString:@" - "];
+            
+            NSString *startTime = searchTimeArr[0];
+            NSString *endTime = searchTimeArr[1];
+            
+            NSDateFormatter *matter = [[NSDateFormatter alloc] init];
+            matter.dateFormat = @"yyyy-MM-dd";
+            NSDate *startDate = [matter dateFromString:startTime];
+            NSDate *endDate   = [matter dateFromString:endTime];
+            matter.dateFormat = @"yyyyMMddHHmmss";
+            params.beginDate  = [matter stringFromDate:startDate];
+            params.endDate    = [matter stringFromDate:endDate];
+            
+        }else {
+            NSString *beginOri = [NSString stringWithFormat:@"%@-01",self.timeSearchText];
+            NSDateFormatter *matter = [[NSDateFormatter alloc] init];
+            matter.dateFormat = @"yyyy-M-dd";
+            NSDate *beginDate = [matter dateFromString:beginOri];
+
+            matter.dateFormat = @"yyyy-MM-dd";
+            NSString *beginTime = [matter stringFromDate:beginDate];
+            NSArray *monthArr = [CXFunctionTool getMonthFirstAndLastDayWith:beginTime];
+            NSString *firstValue = monthArr[0];
+            if ([CXFunctionTool haveValue:firstValue]) {
+                params.beginDate  = monthArr[0];
+                params.endDate    = monthArr[1];
+            }
+        }
+    }
+    
+    WEAK_SELF;
+    [YMMyHttpRequestApi loadHttpRequestWithBillList:params success:^(NSMutableArray *array, YMAllBillListModel *model) {
+        
+        STRONG_SELF;
+        //        NSLog(@"model---------%@",model.countNum);
+        
+        [strongSelf.tableView.mj_header endRefreshing];
+        [strongSelf.tableView.mj_footer endRefreshing];
+        strongSelf.backgroundView.hidden = YES;
+        strongSelf.tableView.hidden = NO;
+        
+        if (array.count > 0) {
+            if (strongSelf.pageNum>1) {
+                [strongSelf.allDataArray addObjectsFromArray:array];
+            }else{
+                [strongSelf.headDataArr removeAllObjects];
+                [strongSelf.allDataArray removeAllObjects];
+                strongSelf.tableView.mj_footer.hidden = array.count>19?NO:YES;
+                strongSelf.allDataArray = array;
+            }
+        }else{
+            if (strongSelf.pageNum>1) {
+                [strongSelf.tableView.mj_footer endRefreshingWithNoMoreData];
+            }else{
+                strongSelf.backgroundView.hidden = NO;
+                strongSelf.tableView.hidden = YES;
+            }
+        }
+        
+        if (array.count > 0) {
+            YMAllBillListDataModel *dataModel = [model getDataModel];
+            NSError *error;
+            NSData *dataNew = [[NSData alloc]initWithBase64EncodedString:dataModel.AllTxamt options:NSDataBase64DecodingIgnoreUnknownCharacters];
+            NSDictionary *response = [NSJSONSerialization JSONObjectWithData:dataNew options:NSJSONReadingMutableContainers error:&error];
+            
+            NSArray *headData = [NSArray arrayWithArray:strongSelf.headDataArr];
+          
+            if (!headData || headData.count == 0) {
+                for (NSString *key in response) {
+                    NSDictionary *newDic = @{key:response[key]};
+                    [strongSelf.headDataArr addObject:newDic];
+                }
+            }else {
+                NSMutableArray *arr = [[NSMutableArray alloc] init];
+                for (NSDictionary *keyDic in headData) {
+                    [arr addObject:[keyDic allKeys][0]];
+                }
+                
+                for (NSString *time in response) {
+                    
+                    if (![arr containsObject:time]) {
+                        
+                        NSDictionary *markDic = @{time:response[time]};
+                        [strongSelf.headDataArr addObject:markDic];
+                    }
+                }
+            }
+            
+            
+            
+            
+            
+            
+            
+//            else {
+//                for (NSString *time in response) {
+//
+//                    for (NSDictionary *subT in headData) {
+//
+//                        if (![[subT allKeys][0] isEqualToString:time]) {
+//                            NSString *key = [subT allKeys][0];
+//                            NSLog(@"%@****%@",key,time);
+//                            NSDictionary *markDic = @{time:response[time]};
+//                            [strongSelf.headDataArr addObject:markDic];
+//                        }
+//                    }
+//                }
+//            }
+        }
+        
+        strongSelf.dataArray = [YMAllBillListEndWantModel getDataArray:strongSelf.allDataArray];
+        [strongSelf.tableView reloadData];
+        
+    } failure:^(NSError *error) {
+        STRONG_SELF;
+        [strongSelf.tableView.mj_header endRefreshing];
+        [strongSelf.tableView.mj_footer endRefreshing];
+    }];
+    
+}
 
 
 @end

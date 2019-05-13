@@ -72,7 +72,6 @@
         [MBProgressHUD showText:resMsg];
         [self.verificationView createTimer];
     }];
-
 }
 #pragma mark - 数据库相关
 - (void)initDB

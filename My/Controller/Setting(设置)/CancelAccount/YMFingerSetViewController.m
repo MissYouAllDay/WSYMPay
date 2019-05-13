@@ -5,7 +5,6 @@
 //  Created by jey on 2019/5/10.
 //  Copyright © 2019 赢联. All rights reserved.
 //
-#define SET_NSUSERDEFAULT(k, o)           ([[NSUserDefaults standardUserDefaults] setObject:o forKey:k])
 #define REMOVE_NSUSERDEFAULT(k)           ([[NSUserDefaults standardUserDefaults] removeObjectForKey:k])
 #define NSUSERDEFAULT_SYNCHRONIZE         ([[NSUserDefaults standardUserDefaults] synchronize])
 #import "YMFingerSetViewController.h"
@@ -29,7 +28,7 @@
     self.title = @"指纹设置";
     self.view.backgroundColor = [UIColor whiteColor];
     UIImageView *iconImageView = [[UIImageView alloc]initWithFrame:CGRectMake((SCREENWIDTH-82)/2, 47, 82, 94)];
-    iconImageView.backgroundColor = [UIColor redColor];
+    iconImageView.image = [UIImage imageNamed:@"指纹"];
     [self.view addSubview:iconImageView];
     
     _fingerMes = [[UILabel alloc]initWithFrame:CGRectMake(0, iconImageView.bottom+30, SCREENWIDTH, 14)];
@@ -55,7 +54,7 @@
     [_ktBtn setTitleColor:UIColorFromHex(0xffffff) forState:UIControlStateNormal];
     [self.view addSubview:_ktBtn];
     [_ktBtn addTarget:self action:@selector(ktBtnClick) forControlEvents:UIControlEventTouchDown];
-    if ([GET_NSUSERDEFAULT(@"Finger") isEqualToString:@"1"]) {
+    if ([GET_NSUSERDEFAULT(USER_FINGER) isEqualToString:@"1"]) {
         _fingerMes.text = @"您已开通指纹解锁";
         [_ktBtn setTitle:@"关闭指纹解锁" forState:UIControlStateNormal];
     }
@@ -63,8 +62,8 @@
 
 - (void)ktBtnClick {
     
-    if ([GET_NSUSERDEFAULT(@"Finger") isEqualToString:@"1"]) {
-        REMOVE_NSUSERDEFAULT(@"Finger");
+    if ([GET_NSUSERDEFAULT(USER_FINGER) isEqualToString:@"1"]) {
+        REMOVE_NSUSERDEFAULT(USER_FINGER);
         _fingerMes.text = @"您未开通指纹解锁";
         [_ktBtn setTitle:@"开通指纹解锁" forState:UIControlStateNormal];
         return;
@@ -92,7 +91,7 @@
             if (success) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [MBProgressHUD showText:@"指纹验证成功"];
-                    SET_NSUSERDEFAULT(@"Finger", @"1");
+                    SET_NSUSERDEFAULT(USER_FINGER, @"1");
                     _fingerMes.text = @"您已开通指纹解锁";
                     [_ktBtn setTitle:@"关闭指纹解锁" forState:UIControlStateNormal];
                     
@@ -176,7 +175,7 @@
 // 指纹识别 成功
 - (void)fingerprintSuccess {
     
-    if ([GET_NSUSERDEFAULT(@"Finger") isEqualToString:@"1"]) {
+    if ([GET_NSUSERDEFAULT(USER_FINGER) isEqualToString:@"1"]) {
         _fingerMes.text = @"您已开通指纹解锁";
         [_ktBtn setTitle:@"关闭指纹解锁" forState:UIControlStateNormal];
         

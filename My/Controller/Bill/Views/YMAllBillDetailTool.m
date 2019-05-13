@@ -125,6 +125,10 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 //    return [self getItemCount:section];
+    
+    if ([self.tranType isEqualToString:@"5"]) {
+        return section == 0 ? 6 : 1;
+    }
     return section == 0 ? 5 : 1;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -137,6 +141,7 @@
     if (indexPath.row == 0 || indexPath.row == 2) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
+    cell.tranType = self.tranType;
     [cell sendBillDetailType:self.billDetailType section:indexPath.section row:indexPath.row model:self.detailDataModel];
     return cell;
 }
@@ -191,6 +196,7 @@
         return;
     }
     [self.headView sendBillDetailType:self.billDetailType model:_detailDataModel];
+    [self.headView sendBillDetailTranType:self.tranType model:_detailDataModel];    // 充值
     
     self.footView = [YMAllBillDetailFootView instanceView];
     self.footView.delegate = self;

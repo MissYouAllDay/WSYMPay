@@ -30,7 +30,7 @@
 #import "YMBillRecordListVC.h"
 
 
-@interface YMMobileRechargeVC ()<FinancialToolDelegate,CNContactPickerDelegate,ABPeoplePickerNavigationControllerDelegate,UIAlertViewDelegate>
+@interface YMMobileRechargeVC ()<FinancialToolDelegate,CNContactPickerDelegate,ABPeoplePickerNavigationControllerDelegate,UIAlertViewDelegate,CXFunctionDelegate>
 @property (nonatomic, strong) UICollectionView * collectView;
 @property (nonatomic, strong) FinancialTool * financialtool;
 @property (nonatomic, strong) YMVerificationPaywordBoxView * pwdBoxView;
@@ -567,7 +567,7 @@
         [param setObject:payPwd forKey:@"payPwd"];
     }
     NSString *fingerText = [NSString stringWithFormat:@"{\"machineNum\":\"%@\",\"raw\":\"%@\",\"tee_n\":\"IOS\",\"tee_v\":\"%@\"}",[ObtainUserIDFVTool getIDFV],[YMUserInfoTool shareInstance].randomCode,[[UIDevice currentDevice] systemVersion]];
-    [param setObject:[fingerText encryptAES] forKey:@"fingerText"];
+    [param setObject:fingerText forKey:@"fingerText"];
     [param setObject:[[ObtainUserIDFVTool getIDFV] encryptAES] forKey:@"machineNum"];
     [param setObject:[[NSString stringWithFormat:@"%d",paytype] encryptAES] forKey:@"pwdType"];
     

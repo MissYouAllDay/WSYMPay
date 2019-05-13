@@ -59,5 +59,32 @@
         default:
             break;
     }
+    
+    // 以上逻辑为老版本逻辑
+    // 以下逻辑为新j增加逻辑
 }
+- (void)sendBillDetailTranType:(NSString *)tranType model:(YMAllBillDetailDataModel *)model {
+    
+    // 1:消费  2 ： 手机充值 3 ： 充值 4:转账 5:提现
+        if ([tranType isEqualToString:@"1"]) {
+            self.nameLabel.text = [model getMerNamStr];
+            self.txAmtLabel.text = [model getTxAmtStr];
+            self.statusLabel.text = [model getOrderStatusStr];
+        }else if ([tranType isEqualToString:@"2"]) {
+            
+        }else if ([tranType isEqualToString:@"3"]) {
+            self.nameLabel.text = @"充值金额";
+            self.txAmtLabel.text = [model getTxAmtStr];
+            self.statusLabel.text = @"";
+        }else if ([tranType isEqualToString:@"4"]) {
+            
+        }else if ([tranType isEqualToString:@"5"]) {
+            self.nameLabel.text = @"提现金额";
+            self.txAmtLabel.text = [model getTxAmtStr];
+            self.statusLabel.text = @"";
+        }else {
+            
+        }
+}
+
 @end
